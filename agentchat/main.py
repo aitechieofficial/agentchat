@@ -11,15 +11,29 @@ from .council import DISCUSSION_ORDER, ask_agent
 from .schemas import CouncilResponse, TopicRequest
 
 ROOT = Path(__file__).resolve().parent.parent
-STATIC_DIR = ROOT / "static"
+LEGACY_STATIC_DIR = ROOT / "static"
+FRONTEND_DIST_DIR = ROOT / "frontend" / "dist"
+
+
+def _served_index() -> Path:
+    if FRONTEND_DIST_DIR.exists():
+        return FRONTEND_DIST_DIR / "index.html"
+    return LEGACY_STATIC_DIR / "index.html"
+
+
+def _mount_frontend_assets() -> None:
+    if FRONTEND_DIST_DIR.exists():
+        app.mount("/assets", StaticFiles(directory=FRONTEND_DIST_DIR / "assets"), name="assets")
+    else:
+        app.mount("/static", StaticFiles(directory=LEGACY_STATIC_DIR), name="static")
 
 app = FastAPI(title="Agent Chat", version="0.1.0")
-app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
+_mount_frontend_assets()
 
 
 @app.get("/")
 async def index() -> FileResponse:
-    return FileResponse(STATIC_DIR / "index.html")
+    return FileResponse(_served_index())
 
 
 @app.get("/api/agents")
