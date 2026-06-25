@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Agent Council</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <section class="visual-panel" aria-label="Agent activity visualization">
+        <div class="brand-row">
+          <div>
+            <p class="eyebrow">LiteLLM Council</p>
+            <h1>Agent Chat</h1>
+          </div>
+          <span id="mode-pill" class="mode-pill">Loading</span>
+        </div>
+
+        <div class="space" id="space">
+          <div class="grid-layer"></div>
+          <div class="orbit orbit-one"></div>
+          <div class="orbit orbit-two"></div>
+          <div class="council-core" aria-hidden="true">
+            <span></span>
+          </div>
+        </div>
+
+        <div class="agent-strip" id="agent-strip"></div>
+      </section>
+
+      <section class="chat-panel" aria-label="Agent council chat">
+        <form class="topic-form" id="topic-form">
+          <label for="topic">Topic</label>
+          <div class="topic-row">
+            <textarea
+              id="topic"
+              name="topic"
+              rows="3"
+              placeholder="Ask the council to discuss a product idea, decision, strategy, or research question."
+              required
+            ></textarea>
+            <div class="controls">
+              <label class="rounds-label" for="rounds">Rounds</label>
+              <input id="rounds" name="rounds" type="number" min="1" max="3" value="1" />
+              <button type="submit" id="run-button" title="Start council discussion">
+                <span class="button-icon">▶</span>
+                <span>Run</span>
+              </button>
+            </div>
+          </div>
+        </form>
+
+        <div class="status-row">
+          <span id="status">Ready for a topic.</span>
+          <button type="button" id="clear-button" class="ghost-button" title="Clear transcript">Clear</button>
+        </div>
+
+        <div class="messages" id="messages" aria-live="polite">
+          <div class="empty-state">
+            <strong>No discussion yet.</strong>
+            <span>Enter a topic and the configured agents will discuss it as a council.</span>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="/static/app.js" type="module"></script>
+  </body>
+</html>
